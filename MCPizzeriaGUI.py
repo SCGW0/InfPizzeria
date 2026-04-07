@@ -1,10 +1,10 @@
 # Dit bestand zorgt voor de gebruikersinterface (GUI)van onze programma.
 # Vul hier de naam van je programma in:
-#
+# MCMpizzaria
 #
 # Vul hier jullie namen in:
-#
-#
+# Maaren
+# 
 #
 
 
