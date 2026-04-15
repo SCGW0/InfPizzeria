@@ -22,11 +22,11 @@ venster = Tk()
 venster.iconbitmap("MC_icon.ico") #Let op: Dit werkt niet op een MAC! Zet deze regel dan in commentaar
 venster.wm_title("MC Pizzeria")
 
+knopSluit = Button(venster, text="Afsluiten", width=10, height=1, command=venster.destroy)
+knopSluit.grid(row=0, column=0)
 
-
-
-
-
+labelIntro = Label(venster, text="Welkom!")
+labelIntro.grid(row=17, column=4, sticky="W")
 
 
 
