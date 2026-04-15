@@ -28,6 +28,19 @@ knopSluit.grid(row=0, column=0)
 labelIntro = Label(venster, text="Welkom!")
 labelIntro.grid(row=17, column=4, sticky="W")
 
+labelKlant = Label(venster, text="Klantnaam:")
+labelKlant.grid(row=1, column=0, sticky="W")
+
+ingevoerde_klantnaam = StringVar()
+invoerveldKlantnaam = Entry(venster, textvariable=ingevoerde_klantnaam)
+invoerveldKlantnaam.grid(row=1, column=1, sticky="W")
+
+labelKlantnr = Label(venster, text="Klantnummer:")
+labelKlantnr.grid(row=2, column=0, sticky="W")
+
+invoerveldKlantNr = Entry(venster)
+invoerveldKlantNr.grid(row=2, column=1, sticky="W")
+
 
 
 #reageert op gebruikersinvoer, deze regel als laatste laten staan
