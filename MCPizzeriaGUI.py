@@ -49,6 +49,16 @@ def haalGeselecteerdeRijOp(event):
  #zet tekst in veld
  invoerveldGeselecteerdePizza.insert(0, geselecteerdeTekst) 
 
+def voegToeAanWinkelWagen():
+ klantNr = invoerveldKlantNr.get()
+ gerechtID = invoerveldGeselecteerdePizza.get()
+ aantal = aantalGekozen.get()
+ MCPizzeriaSQL.voegToeAanWinkelWagen(klantNr, gerechtID, aantal )
+ winkelwagen_tabel = MCPizzeriaSQL.vraagOpGegevensWinkelWagenTabel()
+ listboxWinkelwagen.delete(0, END) #listbox eerst even leeg maken
+ for regel in winkelwagen_tabel:
+    listboxWinkelwagen.insert(END, regel)
+
 ### --------- Hoofdprogramma  ---------------
 
 venster = Tk()
@@ -86,10 +96,15 @@ labelmogelijkheden.grid(row=4, column=0, sticky="W")
 invoerveldPizzanaam = Entry(venster)
 invoerveldPizzanaam.grid(row=3, column=1, sticky="W")
 
-listboxMenu = Listbox(venster, height=6, width=50)
+listboxMenu = Listbox(venster, height=6, width=30)
 listboxMenu.grid(row=4, column=1)
 listboxMenu.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
-# waar kan ik vinden hoe ik een scrollbar kan maken?
+
+scrollbarlistbox = Scrollbar(venster)
+scrollbarlistbox.grid(row=3, column=1, rowspan=10, sticky="E")
+listboxMenu.config(yscrollcommand=scrollbarlistbox.set)
+scrollbarlistbox.config(command=listboxMenu.yview)
+
 
 ingevoerde_pizzanaam = StringVar()
 knopZoekPizzaOpNaam = Button(venster, text="zoek pizza", command=zoekPizza)
@@ -103,6 +118,22 @@ labelGekozenpizza.grid(row=5, column=0, sticky="W")
 
 invoerveldGeselecteerdePizza = Entry(venster)
 invoerveldGeselecteerdePizza.grid(row=5, column=1, sticky="W")
+
+labelAantal = Label(venster, text="Aantal:")
+labelAantal.grid(row=6, column=0)
+
+aantalGekozen = StringVar()
+AantalKnop = OptionMenu(venster, aantalGekozen, 1,2,3)
+AantalKnop.grid(row=6, column=1)
+
+knopVoegToe = Button(venster, text= "Voeg toe", command=voegToeAanWinkelWagen)
+knopVoegToe.grid(row=6, column=2)
+
+labelBestelling = Label(venster, text="Bestelling:")
+labelBestelling.grid(row=7, column=0)
+
+listboxWinkelwagen = Listbox(venster, height=4, width=30)
+listboxWinkelwagen.grid(row=7, column=1)
 
 #reageert op gebruikersinvoer, deze regel als laatste laten staan
 venster.mainloop()

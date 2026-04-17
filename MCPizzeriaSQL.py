@@ -30,6 +30,17 @@ def maakNieuweTabellen():
     klantNr INTEGER PRIMARY KEY AUTOINCREMENT,
     klantAchternaam TEXT);""")
     print("Tabel 'tbl_klanten' aangemaakt.")
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS tbl_winkelWagen(
+    bestelRegel INTEGER PRIMARY KEY AUTOINCREMENT,
+    klantNr INTEGER,
+    gerechtID INTEGER,
+    aantal INTEGER NOT NULL,
+    FOREIGN KEY (klantNr) REFERENCES tbl_klanten(klantNr)
+    FOREIGN KEY (gerechtID) REFERENCES tbl_pizzas(gerechtID)
+    );""")
+    print("Tabel 'tbl_winkelWagen' aangemaakt.")
+
 
 def printTabel(tabel_naam):
  cursor.execute("SELECT * FROM " + tabel_naam) #SQL om ALLE gegevens te halen
@@ -90,6 +101,17 @@ def vraagOpGegevensPizzaTabel():
  print("Tabel tbl_pizzas:", resultaat)
  return resultaat
 
+def voegToeAanWinkelWagen(klantNr, gerechtID, aantal):
+ cursor.execute("INSERT INTO tbl_winkelWagen VALUES(NULL, ?, ?, ?)", (klantNr, gerechtID, aantal,))
+ db.commit()#gegevens in de database zetten
+ printTabel("tbl_winkelWagen")
+
+def vraagOpGegevensWinkelWagenTabel():
+ cursor.execute("SELECT * FROM tbl_winkelWagen")
+ resultaat = cursor.fetchall()
+ print("Tabel tbl_winkelWagen:", resultaat)
+ return resultaat
+
 
 ### --------- Hoofdprogramma  ---------------
 maakTabellenAan()
@@ -103,6 +125,9 @@ printTabel('tbl_pizzas')
 # voegKlantToe("Janssen")
 # voegKlantToe("Smit")
 # voegPizzaToe('Ancona', 11.00)
+# voegPizzaToe("BangBang", 13.00)
+# voegPizzaToe("Magisch", 15.45)
+# voegPizzaToe("Babylon", 13.37)
 
 
 
