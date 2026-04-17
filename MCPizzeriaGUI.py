@@ -28,6 +28,26 @@ def zoekKlant():
     #toon klantAchternaam, de tweede kolom uit het resultaat in de invoerveld
     invoerveldKlantnaam.insert(END, rij[1]) 
 
+def zoekPizza():
+ gevonden_Pizzas = MCPizzeriaSQL.zoekPizzaInTabel(ingevoerde_pizzanaam.get())
+ print(gevonden_Pizzas)
+
+def toonMenuInListbox():
+    listboxMenu.delete(0, END) #maak de listbox leeg
+    listboxMenu.insert(0, "ID Gerecht Prijs")
+    pizza_tabel = MCPizzeriaSQL.vraagOpGegevensPizzaTabel()
+    for regel in pizza_tabel:
+        listboxMenu.insert(END, regel) #voeg elke regel uit resultaat in listboxMenu
+
+def haalGeselecteerdeRijOp(event):
+ #bepaal op welke regel er geklikt is
+ geselecteerdeRegelInLijst = listboxMenu.curselection()[0]
+ #haal tekst uit die regel
+ geselecteerdeTekst = listboxMenu.get(geselecteerdeRegelInLijst)
+ #verwijder tekst uit veld waar je in wilt schrijven, voor het geval er al iets staat
+ invoerveldGeselecteerdePizza.delete(0, END)
+ #zet tekst in veld
+ invoerveldGeselecteerdePizza.insert(0, geselecteerdeTekst) 
 
 ### --------- Hoofdprogramma  ---------------
 
@@ -39,7 +59,7 @@ knopSluit = Button(venster, text="Afsluiten", width=10, height=1, command=venste
 knopSluit.grid(row=0, column=0)
 
 labelIntro = Label(venster, text="Welkom!")
-labelIntro.grid(row=17, column=4, sticky="W")
+labelIntro.grid(row=0, column=1, sticky="W")
 
 labelKlant = Label(venster, text="Klantnaam:")
 labelKlant.grid(row=1, column=0, sticky="W")
@@ -55,8 +75,34 @@ invoerveldKlantNr = Entry(venster)
 invoerveldKlantNr.grid(row=2, column=1, sticky="W")
 
 KnopZoekOpKlantNaam = Button(venster, text="Zoek klant", width=12, command=zoekKlant)
-KnopZoekOpKlantNaam.grid(row=1, column=4)
+KnopZoekOpKlantNaam.grid(row=1, column=3)
 
+labelpizzanaam = Label(venster, text="Pizzanaam:")
+labelpizzanaam.grid(row=3, column=0, sticky="W")
+
+labelmogelijkheden = Label(venster, text="Mogelijkheden:")
+labelmogelijkheden.grid(row=4, column=0, sticky="W")
+
+invoerveldPizzanaam = Entry(venster)
+invoerveldPizzanaam.grid(row=3, column=1, sticky="W")
+
+listboxMenu = Listbox(venster, height=6, width=50)
+listboxMenu.grid(row=4, column=1)
+listboxMenu.bind('<<ListboxSelect>>', haalGeselecteerdeRijOp)
+# waar kan ik vinden hoe ik een scrollbar kan maken?
+
+ingevoerde_pizzanaam = StringVar()
+knopZoekPizzaOpNaam = Button(venster, text="zoek pizza", command=zoekPizza)
+knopZoekPizzaOpNaam.grid(row=3, column=3)
+
+knopToonPizzas = Button(venster, text="Toon alle pizza's", command=toonMenuInListbox)
+knopToonPizzas.grid(row=4, column=3)
+
+labelGekozenpizza = Label(venster, text="Gekozen pizza:")
+labelGekozenpizza.grid(row=5, column=0, sticky="W")
+
+invoerveldGeselecteerdePizza = Entry(venster)
+invoerveldGeselecteerdePizza.grid(row=5, column=1, sticky="W")
 
 #reageert op gebruikersinvoer, deze regel als laatste laten staan
 venster.mainloop()

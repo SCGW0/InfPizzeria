@@ -75,21 +75,34 @@ def zoekKlantInTabel(ingevoerde_klantnaam):
         zoek_resultaat = cursor.fetchall()
 
     return zoek_resultaat
- 
+
+def zoekPizzaInTabel(ingevoerde_pizzanaam):
+    cursor.execute("SELECT * FROM tbl_pizzas WHERE gerechtNaam = ?",(ingevoerde_pizzanaam,))
+    zoek_resultaat = cursor.fetchall()
+    if zoek_resultaat == []: #resultaat is leeg, geen gerecht gevonden
+        print("Geen pizza gevonden met naam", ingevoerde_pizzanaam)
+
+    return zoek_resultaat
+
+def vraagOpGegevensPizzaTabel():
+ cursor.execute("SELECT * FROM tbl_pizzas")
+ resultaat = cursor.fetchall()
+ print("Tabel tbl_pizzas:", resultaat)
+ return resultaat
 
 
 ### --------- Hoofdprogramma  ---------------
-# maakTabellenAan()
-# maakNieuweTabellen()
+maakTabellenAan()
+maakNieuweTabellen()
 # voegPizzaToe("Margarita", 9.50)
 # voegPizzaToe("Hawaii", 12.25)
 # voegPizzaToe("Salami", 10.00)
 # verwijderpizza("Hawaii")
-# printTabel('tbl_pizzas')
+printTabel('tbl_pizzas')
 # pasGerechtAan(3, "Salamiiii", 19.25)
 # voegKlantToe("Janssen")
 # voegKlantToe("Smit")
-
+# voegPizzaToe('Ancona', 11.00)
 
 
 
